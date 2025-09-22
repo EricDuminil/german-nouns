@@ -54,6 +54,53 @@ test_words = [
     ),
 ]
 
+test_articles = [
+    ("Das", "Ende"),
+    ("Das", "Feedback"),
+    ("Das", "Formular"),
+    ("Das", "Geld"),
+    ("Das", "Kabel"),
+    ("Das", "Konzept"),
+    ("Das", "Körpergewicht"),
+    ("Das", "Meeting"),
+    ("Das", "Projekt"),
+    ("Das", "Quartier"),
+    ("Das", "Radler"),
+    ("Das", "Seil"),
+    ("Das", "T-Shirt"),
+    ("Das", "Teil"),  # : etwas Losgelöstes, für ein einzelnes Stück."
+    ("Das", "Thema"),
+    ("Das", "Ticket"),
+    ("Das", "Tool"),
+    ("Das", "Treffen"),
+    ("Das", "Vertrauen"),
+    ("Der", "Akzent"),
+    ("Der", "Bericht"),
+    ("Der", "Beton"),
+    ("Der", "Code"),
+    ("Der", "Einfluss"),
+    ("Der", "Geruch"),
+    ("Der", "Kalender"),
+    ("Der", "Schloss"),
+    ("Der", "Teil#"),  # : Untermenge eines Ganzen"
+    ("Der", "Verein"),
+    ("Der", "Wechsel"),
+    ("Der", "Workflow"),
+    ("Der", "Workshop"),
+    ("Der", "Überblick"),
+    ("Die", "Band"),
+    ("Die", "Butter"),
+    ("Die", "Konferenz"),
+    ("Die", "Nutella"),
+]
+
+ARTICLES = {
+        'f': 'Die',
+        'm': 'Der',
+        'n': 'Das'
+}
+
+
 compound_test_words = [
     ("Faktencheck", ["Fakt", "Check"]),
     ("Dreiergespann", ["Dreier", "Gespann"]),
@@ -94,3 +141,8 @@ class TestLookup:
         result = nouns.parse_compound(test_input)
 
         assert result == expected
+
+    @pytest.mark.parametrize("expected, word", test_articles)
+    def test_parse_articles(self, expected, word, nouns):
+        article = ARTICLES[nouns[word][0]['genus']]
+        assert article == expected
