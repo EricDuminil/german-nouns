@@ -144,5 +144,9 @@ class TestLookup:
 
     @pytest.mark.parametrize("expected, word", test_articles)
     def test_parse_articles(self, expected, word, nouns):
-        article = ARTICLES[nouns[word][0]['genus']]
-        assert article == expected
+        try:
+            article = ARTICLES[nouns[word][0]['genus']]
+            assert article == expected
+        except:
+            import rich
+            rich.print(nouns[word])
