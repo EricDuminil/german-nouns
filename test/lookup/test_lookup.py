@@ -76,17 +76,21 @@ compound_test_words = [
 ]
 
 
+# Loading nouns is expensive, so only do it once per test
+@pytest.fixture(scope="module")
+def nouns():
+    return Nouns()
+
+
 class TestLookup:
     @pytest.mark.parametrize("test_input,expected", test_words)
-    def test_lookup(self, test_input, expected):
-        nouns = Nouns()
+    def test_lookup(self, test_input, expected, nouns):
         result = nouns[test_input]
 
         assert result == expected
 
     @pytest.mark.parametrize("test_input,expected", compound_test_words)
-    def test_parse_compound(self, test_input, expected):
-        nouns = Nouns()
+    def test_parse_compound(self, test_input, expected, nouns):
         result = nouns.parse_compound(test_input)
 
         assert result == expected
